@@ -10,7 +10,7 @@ def tahmin_et():
         print(f"HATA: '{model_path}' bulunamadı. Eğitimin bittiğinden emin misin?")
         return
 
-    source_path = ["ucak.jpg","iha.jpg","drone.jpg"] 
+    source_path = ["image/ucak.jpg","image/iha.jpg","image/drone.jpg"] 
 
     # 3. Tahmin Yap
     print("Tahmin yapılıyor...")
