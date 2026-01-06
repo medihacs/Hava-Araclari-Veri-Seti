@@ -36,8 +36,6 @@ def image_test():
         os.path.join(image_dir, "drone2.jpg"),
         os.path.join(image_dir, "ucak2.jpg"),
         os.path.join(image_dir, "iha2.jpg")
-        
-
     ]
 
     # Dosya kontrolü (debug)
@@ -69,18 +67,36 @@ def video_test():
     if model is None:
         return
 
-    video_path = "video/drone.mp4"   # video klasöründeki dosya
+    video_paths = ["video/drone.mp4" ,
+                  "video/ucak.mp4"
+      ]  # video klasöründeki dosyalar
 
-    if not os.path.exists(video_path):
-        print(f"❌ Video bulunamadı: {video_path}")
+    # 2. Dosyaların Varlığını TEK TEK Kontrol Et
+    gecerli_videolar = [] # Sadece gerçekten var olanları buraya ekleyeceğiz
+    
+    for video in video_paths:
+        if os.path.exists(video):
+            gecerli_videolar.append(video)
+        else:
+            print(f"⚠️ UYARI: Video bulunamadı ve atlanacak: {video}")
+
+    # Eğer hiç geçerli video yoksa işlemi durdur
+    if not gecerli_videolar:
+        print("❌ Hiçbir video dosyası bulunamadı!")
         return
 
-    model.predict(
-        source=video_path,
-        conf=0.45,
-        show=False,   # ❌ pencere açma (hata almamak için)
-        save=True     # ✅ sonucu kaydet
-    )
+    for video_dosyasi in gecerli_videolar:
+        print(f"▶️ İşleniyor: {video_dosyasi}")
+        
+        try:
+            model.predict(
+                source=video_dosyasi, # Buraya LİSTE değil, TEK dosya veriyoruz
+                conf=0.45,
+                show=False,
+                save=True
+            )
+        except Exception as e:
+            print(f"⚠️ Hata oluştu ({video_dosyasi}): {e}")
 
     print("✅ Video tahmini tamamlandı")
     print("📂 Sonuçlar: runs/detect/predict/")
@@ -113,8 +129,8 @@ def main():
  YOLOv8 Hava Araçları TEST
 ==============================
 1 - Resim Testi
-2 - Video Testi
-3 - Canlı Kamera Testi      
+2 - Canlı Kamera Testi
+3 - Video Testi      
 4 - Çıkış
 """)
 
@@ -125,6 +141,8 @@ def main():
     elif secim == "2":
         camera_test()
     elif secim == "3":
+        video_test()
+    elif secim == "4":
         print("Çıkılıyor...")
     else:
         print("Geçersiz seçim!")
