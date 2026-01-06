@@ -35,8 +35,8 @@ def image_test():
         os.path.join(image_dir, "drone.jpg"),
         os.path.join(image_dir, "drone2.jpg"),
         os.path.join(image_dir, "ucak2.jpg"),
-        os.path.join(image_dir, "iha2.jpg"),
-        os.path.join(image_dir, "kus.jpg")
+        os.path.join(image_dir, "iha2.jpg")
+        
 
     ]
 
@@ -132,3 +132,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
