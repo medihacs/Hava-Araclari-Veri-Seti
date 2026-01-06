@@ -2,16 +2,16 @@ from ultralytics import YOLO
 import cv2
 import os
 
-MODEL_PATH = "yolov8n.pt"
+model_path = 'runs/weights/best.pt'
 
 
 
 def model_kontrol():
-    if not os.path.exists(MODEL_PATH):
-        print(f"HATA: '{MODEL_PATH}' bulunamadı!")
+    if not os.path.exists(model_path):
+        print(f"HATA: '{model_path}' bulunamadı!")
         print("Önce modeli eğittiğinden emin ol.")
         return None
-    return YOLO(MODEL_PATH)
+    return YOLO(model_path)
 
 
 # ------------------ RESİM TEST ------------------
@@ -32,7 +32,12 @@ def image_test():
     images = [
         os.path.join(image_dir, "ucak.jpg"),
         os.path.join(image_dir, "iha.jpg"),
-        os.path.join(image_dir, "drone.jpg")
+        os.path.join(image_dir, "drone.jpg"),
+        os.path.join(image_dir, "drone2.jpg"),
+        os.path.join(image_dir, "ucak2.jpg"),
+        os.path.join(image_dir, "iha2.jpg"),
+        os.path.join(image_dir, "kus.jpg")
+
     ]
 
     # Dosya kontrolü (debug)
@@ -56,7 +61,31 @@ def image_test():
 
 
 
-# ------------------ KAMERA / VİDEO TEST ------------------
+# ------------------  VİDEO TEST ------------------
+def video_test():
+    print("🎥 Video tahmini yapılıyor...")
+
+    model = model_kontrol()
+    if model is None:
+        return
+
+    video_path = "video/drone.mp4"   # video klasöründeki dosya
+
+    if not os.path.exists(video_path):
+        print(f"❌ Video bulunamadı: {video_path}")
+        return
+
+    model.predict(
+        source=video_path,
+        conf=0.45,
+        show=False,   # ❌ pencere açma (hata almamak için)
+        save=True     # ✅ sonucu kaydet
+    )
+
+    print("✅ Video tahmini tamamlandı")
+    print("📂 Sonuçlar: runs/detect/predict/")
+
+# ------------------ KAMERA  TEST ------------------
 def camera_test():
     model = model_kontrol()
     if model is None:
@@ -77,7 +106,6 @@ def camera_test():
 
     cv2.destroyAllWindows()
 
-
 # ------------------ ANA MENÜ ------------------
 def main():
     print("""
@@ -85,8 +113,9 @@ def main():
  YOLOv8 Hava Araçları TEST
 ==============================
 1 - Resim Testi
-2 - Canlı Kamera Testi
-3 - Çıkış
+2 - Video Testi
+3 - Canlı Kamera Testi      
+4 - Çıkış
 """)
 
     secim = input("Seçiminizi girin (1/2/3): ")
