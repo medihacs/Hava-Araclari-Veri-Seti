@@ -41,7 +41,7 @@ def image_test():
     # Dosya kontrolü (debug)
     for img in images:
         if not os.path.exists(img):
-            print(f"❌ Bulunamadı: {img}")
+            print(f"Bulunamadı: {img}")
             return
 
     print("📷 Resim tahmini yapılıyor...")
@@ -53,15 +53,14 @@ def image_test():
         save=True
     )
 
-    print("✅ Tahmin tamamlandı")
-    print("📂 Sonuçlar: runs/detect/predict/")
+    print("Tahmin tamamlandı")
+    print("Sonuçlar: runs/detect/predict/")
 
 
 
 
 # ------------------  VİDEO TEST ------------------
 def video_test():
-    print("🎥 Video tahmini yapılıyor...")
 
     model = model_kontrol()
     if model is None:
@@ -82,11 +81,11 @@ def video_test():
 
     # Eğer hiç geçerli video yoksa işlemi durdur
     if not gecerli_videolar:
-        print("❌ Hiçbir video dosyası bulunamadı!")
+        print("Hiçbir video dosyası bulunamadı!")
         return
 
     for video_dosyasi in gecerli_videolar:
-        print(f"▶️ İşleniyor: {video_dosyasi}")
+        print(f"İşleniyor: {video_dosyasi}")
         
         try:
             model.predict(
@@ -98,8 +97,8 @@ def video_test():
         except Exception as e:
             print(f"⚠️ Hata oluştu ({video_dosyasi}): {e}")
 
-    print("✅ Video tahmini tamamlandı")
-    print("📂 Sonuçlar: runs/detect/predict/")
+    print("Video tahmini tamamlandı")
+    print("Sonuçlar: runs/detect/predict/")
 
 # ------------------ KAMERA  TEST ------------------
 def camera_test():
@@ -107,7 +106,7 @@ def camera_test():
     if model is None:
         return
 
-    print("🎥 Kamera açılıyor (Çıkmak için 'q')")
+    print("Kamera açılıyor (Çıkmak için 'q')")
 
     results = model.predict(
         source=0,        # Laptop kamerası

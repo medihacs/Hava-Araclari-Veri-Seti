@@ -14,11 +14,11 @@ def main():
     
     results = model.train(
         data=f"{dataset.location}/data.yaml",
-        epochs=50,      # Modeli kaç kez veri üzerinde döndüreceğimiz (Hata oranı düşmezse arttırabilirsin)
+        epochs=50,     
         imgsz=640,      
         batch=32,       
         name='hava_araclari_modeli', 
-        device=0        # Eğer NVIDIA ekran kartın varsa 0, yoksa 'cpu' yazmalısın
+        device=0        # GPU:0, CPU=cpu
     )
     
 if __name__ == '__main__':
